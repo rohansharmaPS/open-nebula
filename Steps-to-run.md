@@ -41,7 +41,7 @@ sudo npm i -g opennebula one bower grunt-cli
 --- 
 ## Compilation Command
 ```bash
-scons -j2 mysql=yes syslog=yes sunstone=yes fireedge=yes rubygems=yes new_xmlrpc=yes docker_machine=yes systemd=yes
+scons -j2 mysql=yes syslog=yes systemd=yes rubygems=yes sunstone=yes fireedge=yes docker_machine=yes
 ```
 ---
 ## Create one_auth File
@@ -72,11 +72,15 @@ sudo mkdir -p one
 ## Start opennebula service
 ```bash
 sudo one start
+# If above command results in error due to ONE_AUTH not being set use the following command
+sudo ONE_AUTH="/var/lib/one/.one/one_auth" one start
 ```
 ---
 ## Start Sunstone frontend GUI
 ```bash
 sudo sunstone-server start
+# If above command results in error due to ONE_AUTH not being set use the following command
+sudo ONE_AUTH="/var/lib/one/.one/one_auth" sunstone-server start
 ```
 ---
 ## Open Sunstone frontend GUI
