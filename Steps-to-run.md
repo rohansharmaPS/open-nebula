@@ -11,7 +11,7 @@ libsystemd-dev libws-commons-util-java libxml2-dev libxslt1-dev libcurl4-openssl
 postgresql-server-dev-all python3-setuptools libzmq3-dev python2 build-essential libcairo2-dev libjpeg-turbo8-dev \
 libxmlrpc-core-c3-dev npm ronn ruby scons libxmlrpc-c++8-dev libtelnet-dev libwebsockets-dev libpulse-dev libvorbis-dev \
 libwebp-dev libssl-dev libpango1.0-dev libswscale-dev libavcodec-dev libavutil-dev libavformat-dev libpng-dev libtool-bin \
-libossp-uuid-dev libvncserver-dev freerdp2-dev libssh2-1-dev ruby-rubygems
+libossp-uuid-dev libvncserver-dev freerdp2-dev libssh2-1-dev
 ```
 ---
 ## Clone Open Nebula one GitHub Repository
