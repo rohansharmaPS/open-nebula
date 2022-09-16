@@ -22,11 +22,11 @@ cd one
 ---
 ## Ruby gem Dependencies Installation
 ```bash
-cd share
+cd ~/one/share/install_gems/
 sudo ./install_gems
 ```
 ```bash
-sudo gem install xmlrpc polyglot treetop parse-cron ffi-rzmq
+sudo gem install xmlrpc polyglot treetop parse-cron ffi-rzmq nokogiri treetop ronn
 ```
 ---
 ## Python version alternative update
@@ -44,6 +44,14 @@ sudo npm i -g opennebula one bower grunt-cli
 scons -j2 mysql=yes syslog=yes systemd=yes rubygems=yes sunstone=yes fireedge=yes docker_machine=yes
 ```
 ---
+--- 
+## Build and Install Open Nebula
+```bash
+cd ~/one/share/man
+sudo ./build.sh
+cd ~/one
+sudo ./install.sh
+```
 ## Create one_auth File
 ```bash
 cd /var/lib/one/
