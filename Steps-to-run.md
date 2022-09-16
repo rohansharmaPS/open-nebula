@@ -44,7 +44,6 @@ sudo npm i -g opennebula one bower grunt-cli
 scons -j2 mysql=yes syslog=yes systemd=yes rubygems=yes sunstone=yes fireedge=yes docker_machine=yes
 ```
 ---
---- 
 ## Build and Install Open Nebula
 ```bash
 cd ~/one/share/man
@@ -52,6 +51,7 @@ sudo ./build.sh
 cd ~/one
 sudo ./install.sh
 ```
+---
 ## Create one_auth File
 ```bash
 cd /var/lib/one/
