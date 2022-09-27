@@ -9,9 +9,9 @@ sudo apt update
 sudo apt install -y bash-completion bison debhelper default-jdk flex javahelper libmysql++-dev libsqlite3-dev libssl-dev \
 libsystemd-dev libws-commons-util-java libxml2-dev libxslt1-dev libcurl4-openssl-dev libcurl4 libvncserver-dev \
 postgresql-server-dev-all python3-setuptools libzmq3-dev python2 build-essential libcairo2-dev libjpeg-turbo8-dev \
-libxmlrpc-core-c3-dev npm ronn ruby scons libxmlrpc-c++8-dev libtelnet-dev libwebsockets-dev libpulse-dev libvorbis-dev \
+libxmlrpc-core-c3-dev npm ronn ruby ruby-dev scons libxmlrpc-c++8-dev libtelnet-dev libwebsockets-dev libpulse-dev libvorbis-dev \
 libwebp-dev libssl-dev libpango1.0-dev libswscale-dev libavcodec-dev libavutil-dev libavformat-dev libpng-dev libtool-bin \
-libossp-uuid-dev libvncserver-dev freerdp2-dev libssh2-1-dev
+libossp-uuid-dev libvncserver-dev freerdp2-dev libssh2-1-dev libaugeas-dev
 ```
 ---
 ## Clone Open Nebula one GitHub Repository
@@ -22,11 +22,7 @@ cd one
 ---
 ## Ruby gem Dependencies Installation
 ```bash
-cd ~/one/share/install_gems/
-sudo ./install_gems
-```
-```bash
-sudo gem install xmlrpc polyglot treetop parse-cron ffi-rzmq nokogiri treetop ronn
+sudo gem install xmlrpc polyglot treetop parse-cron ffi-rzmq sinatra rqrcode rotp ipaddress ox highline rbvmomi git augeas sqlite3
 ```
 ---
 ## Python version alternative update
@@ -36,7 +32,7 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
 ---
 ## Node dependencies Installation
 ```bash
-sudo npm i -g opennebula one bower grunt-cli
+sudo npm i -g opennebula one bower grunt grunt-cli
 ```
 --- 
 ## Compilation Command
@@ -60,7 +56,7 @@ ls
 sudo mkdir -p .one
 cd .one
 sudo vim one_auth
-username:password
+#In one_auth file store credentials in the form - username:password
 ```
 ---
 ## Set Environment Variables
@@ -75,6 +71,13 @@ ls /var/lock/
 # if one directory does not exist
 cd /var/lock/
 sudo mkdir -p one
+```
+---
+## Edit opennebula deamon configuration file
+```bash
+cd /etc/one/
+sudo vim oned.conf
+uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing "#" in front of the line
 ```
 ---
 ## Start opennebula service
