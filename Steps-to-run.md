@@ -34,6 +34,13 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
 ```bash
 sudo npm i -g opennebula one bower grunt grunt-cli
 ```
+---
+## Sunstone dependencies Installation
+```bash
+cd ~/one/src/sunstone/public
+sudo npm install
+bower install
+```
 --- 
 ## Compilation Command
 ```bash
