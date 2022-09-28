@@ -24,6 +24,10 @@ cd one
 ```bash
 sudo gem install xmlrpc polyglot treetop parse-cron ffi-rzmq sinatra rqrcode rotp ipaddress ox highline rbvmomi git augeas sqlite3
 ```
+#### Additional step for AMD64
+```bash
+sudo gem install curb zendesk_api
+```
 ---
 ## Python version alternative update
 ```bash
@@ -53,6 +57,18 @@ cd ~/one/share/man
 sudo ./build.sh
 cd ~/one
 sudo ./install.sh
+```
+---
+## Link main.js for Sunstone
+```bash
+cd /usr/lib/one/sunstone/public
+sudo ln -s main-dist.js main.js
+```
+---
+## Link dist folder of Fireeedge
+```bash
+cd /usr/lib/one/fireedge/
+sudo ln -s ~/one/src/fireedge/dist
 ```
 ---
 ## Create one_auth File
@@ -87,6 +103,13 @@ sudo vim oned.conf
 uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing "#" in front of the line
 ```
 ---
+## Edit Sunstone server configuration file
+```bash
+cd /etc/one/
+sudo vim sunstone-server.conf
+For host instead of 0.0.0.0 use "public IPV4 DNS"
+```
+---
 ## Start opennebula service
 ```bash
 sudo one start
@@ -103,11 +126,11 @@ sudo ONE_AUTH="/var/lib/one/.one/one_auth" sunstone-server start
 ---
 ## Open Sunstone frontend GUI
 ```
-open IP 0.0.0.0:9869 in browser
+open IP "public IPV4 DNS":9869 in browser
 ```
 ---
 ## Setup Guacd
-```
+```bash
 wget https://downloads.apache.org/guacamole/1.4.0/source/guacamole-server-1.4.0.tar.gz
 tar -xvf guacamole-server-1.4.0.tar.gz
 cd guacamole-server-1.4.0
