@@ -38,23 +38,28 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
 ```bash
 sudo npm i -g opennebula one bower grunt grunt-cli
 ```
----
-## Sunstone dependencies Installation
-```bash
-cd ~/one/src/sunstone/public
-sudo npm install
-bower install
-```
 --- 
 ## Compilation Command
 ```bash
-scons -j2 mysql=yes syslog=yes systemd=yes rubygems=yes sunstone=yes fireedge=yes docker_machine=yes
+# Main compilation command to compile opennebula
+scons -j2 mysql=yes syslog=yes systemd=yes rubygems=yes sunstone=yes 
+```
+#### Optional Compilation Commands
+```bash
+# Compilation command to generate fireedge minified files
+scons -j2 fireedge=yes
+
+# Compilation command to install docker driver for open nebula
+scons -j2 docker_machine=yes
 ```
 ---
 ## Build and Install Open Nebula
 ```bash
+# Command to build opennebula CLI and their documentation
 cd ~/one/share/man
 sudo ./build.sh
+
+# Command to Install opennebula
 cd ~/one
 sudo ./install.sh
 ```
@@ -62,7 +67,7 @@ sudo ./install.sh
 ## Link main.js for Sunstone
 ```bash
 cd /usr/lib/one/sunstone/public
-sudo ln -s main-dist.js main.js
+sudo ln -s ~/one/src/sunstone/public/main-dist.js main.js
 ```
 ---
 ## Link dist folder of Fireeedge
@@ -74,18 +79,18 @@ sudo ln -s ~/one/src/fireedge/dist
 ## Create one_auth File
 ```bash
 cd /var/lib/one/
-ls
-# if .one directory does not exist
+ls -a
+# If .one directory does not exist
 sudo mkdir -p .one
 cd .one
 sudo vim one_auth
-#In one_auth file store credentials in the form - username:password
+# In one_auth file store credentials in the form of username:password
 ```
 ---
 ## Set Environment Variables
 ```bash
 export ONE_AUTH="/var/lib/one/.one/one_auth"
-export ONE_XMLRPC=http://0.0.0.0:2633
+export ONE_XMLRPC=http://"Insert IP where frontend will run":2633
 ```
 ---
 ## Check Lockfile
@@ -96,18 +101,19 @@ cd /var/lock/
 sudo mkdir -p one
 ```
 ---
-## Edit opennebula deamon configuration file
+## Make the Following Changes in configuration Files
+
+#### Opennebula deamon configuration file
 ```bash
 cd /etc/one/
 sudo vim oned.conf
 uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing "#" in front of the line
 ```
----
-## Edit Sunstone server configuration file
+#### Sunstone server configuration file
 ```bash
 cd /etc/one/
 sudo vim sunstone-server.conf
-For host instead of 0.0.0.0 use "public IPV4 DNS"
+For host instead of 0.0.0.0 use "Insert IP where frontend will run"
 ```
 ---
 ## Start opennebula service
@@ -126,7 +132,7 @@ sudo ONE_AUTH="/var/lib/one/.one/one_auth" sunstone-server start
 ---
 ## Open Sunstone frontend GUI
 ```
-open IP "public IPV4 DNS":9869 in browser
+open IP "Insert IP where frontend will run":9869 in browser
 ```
 ---
 ## Setup Guacd
