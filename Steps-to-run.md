@@ -40,8 +40,8 @@ sudo npm i -g opennebula one bower grunt grunt-cli
 ```
 --- 
 ## Compilation Command
+#### Main compilation command to compile opennebula
 ```bash
-# Main compilation command to compile opennebula
 scons -j2 mysql=yes syslog=yes systemd=yes rubygems=yes sunstone=yes 
 ```
 #### Optional Compilation Commands
