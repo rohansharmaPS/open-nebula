@@ -64,10 +64,10 @@ cd ~/one
 sudo ./install.sh
 ```
 ---
-## Link main.js for Sunstone
+## Link main.js for Sunstone if not present in /usr/lib/one/sunstone/public/dist/
 ```bash
-cd /usr/lib/one/sunstone/public
-sudo ln -s ~/one/src/sunstone/public/main-dist.js main.js
+cd /usr/lib/one/sunstone/public/dist/
+sudo ln -s ~/one/src/sunstone/public/dist/main.js main.js
 ```
 ---
 ## Link dist folder of Fireeedge
