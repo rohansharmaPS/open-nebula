@@ -297,10 +297,22 @@ sunstone-server start
 echo $CUR_IP #copy the output
 In browser open IP: http://"output of echo command here":9869
 ```
-![alt text]()
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/sunstone-gui.png?raw=true" title="Sunstone GUI">
+</p>
+
 ---
 ### Create Host
-![alt text]()
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/host-creation.png?raw=true" title="Host Creation">
+</p>
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/list-of-hosts.png?raw=true" title="List of Hosts">
+</p>
+
 ---
 ### Export Ubuntu 20.04 Image and VM template from Opennebula Marketplace
 ```bash
@@ -308,14 +320,38 @@ onemarketapp list
 # Note the ID of Ubuntu 20.04 Usually it is 46 if different then replace 46 with that id number
 onemarketapp export 46 "Ubuntu 20.04" -d 1
 ```
-![alt text]()
----
-![alt text]()
----
-![alt text]()
----
-![alt text]()
----
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/list-of-vm-templates.png?raw=true" title="List of VM Templates">
+</p>
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/update-vm-template.png?raw=true" title="List of Hosts">
+</p>
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/ubuntu-vm-template-detailed-info1.png?raw=true" title="Detailed VM Template">
+</p>
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/ubuntu-vm-template-detailed-info2.png?raw=true" title="Detailed VM Template">
+</p>
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/ubuntu-vm-template-detailed-info3.png?raw=true" title="Detailed VM Template">
+</p>
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/opennebula-dashboard1.png?raw=true" title="Dashboard">
+</p>
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/opennebula-dashboard2.png?raw=true" title="Dashboard">
+</p>
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/opennebula-dashboard3.png?raw=true" title="Dashboard">
+</p>
 
 <h2 align="center">Optional Steps</h2>
 
