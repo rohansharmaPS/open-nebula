@@ -89,7 +89,7 @@ cd /usr/lib/one/sunstone/public/dist/
 sudo ln -s ~/one/src/sunstone/public/dist/main.js main.js
 ```
 ---
-### Link dist folder of Fireeedge
+### Link dist folder of Fireeedge if not present in /usr/lib/one/fireedge/
 ```bash
 cd /usr/lib/one/fireedge/
 sudo ln -s ~/one/src/fireedge/dist
@@ -112,7 +112,7 @@ ls -a
 # If .one directory does not exist
 sudo mkdir -p .one
 cd .one
-sudo vim one_auth
+vi one_auth
 # In one_auth file store credentials in the form of username:password
 ```
 ---
@@ -137,7 +137,7 @@ sudo mkdir -p one
 ```bash
 cd /etc/one/
 echo $CUR_IP #Copy the output of this command
-sudo vim oned.conf
+vi oned.conf
 change the line host: "0.0.0.0" to host: "output of echo command here"
 uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing "#" in front of the line
 ```
@@ -145,7 +145,7 @@ uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing 
 ```bash
 cd /etc/one/
 echo $CUR_IP #Copy the output of this command
-sudo vim sunstone-server.conf
+vi sunstone-server.conf
 #Replace localhost and 0.0.0.0 with output of echo command in the following lines
 one_xmlrpc: http://localhost:2633/RPC2
 host: "0.0.0.0"
@@ -157,22 +157,7 @@ public_fireedge_endpoint: http://localhost:2616
 #### Scheduler deamon configuration file
 #### Fireedge server configuration file
 ---
-### Download and install firecracker driver
-#### ARM64
-```bash
-wget https://github.com/firecracker-microvm/firecracker/releases/download/v1.1.1/firecracker-v1.1.1-aarch64.tgz
-tar -xvf firecracker-v1.1.1-aarch64.tgz
-cd release-v1.1.1-aarch64
-sudo cp firecracker-v1.1.1-aarch64 /usr/bin/firecracker
-```
-#### AMD64
-```bash
-wget https://github.com/firecracker-microvm/firecracker/releases/download/v1.1.1/firecracker-v1.1.1-x86_64.tgz
-tar -xvf firecracker-v1.1.1-x86_64.tgz
-cd release-v1.1.1-x86_64
-sudo cp firecracker-v1.1.1-x86_64 /usr/bin/firecracker
-```
----
+
 
 <h1 align="center"> Steps to Run: Host Setup </h1>
 
@@ -202,28 +187,23 @@ su - oneadmin
 sudo gem install sqlite3
 ```
 ---
-### Download and install firecracker driver
-#### ARM64
-```bash
-wget https://github.com/firecracker-microvm/firecracker/releases/download/v1.1.1/firecracker-v1.1.1-aarch64.tgz
-tar -xvf firecracker-v1.1.1-aarch64.tgz
-cd release-v1.1.1-aarch64
-sudo cp firecracker-v1.1.1-aarch64 /usr/bin/firecracker
-```
-#### AMD64
-```bash
-wget https://github.com/firecracker-microvm/firecracker/releases/download/v1.1.1/firecracker-v1.1.1-x86_64.tgz
-tar -xvf firecracker-v1.1.1-x86_64.tgz
-cd release-v1.1.1-x86_64
-sudo cp firecracker-v1.1.1-x86_64 /usr/bin/firecracker
-```
----
 
-## Note- Configure host first
+&nbsp;&nbsp;&nbsp;
+
+> **Note**
+> Configure host first
+
+&nbsp;&nbsp;&nbsp;
+
+---
 
 <h1 align="center">Configure Passwordless ssh from Frontend to Host: Host Configuration</h1>
 
-## Note- Run the following command as oneadmin
+
+&nbsp;&nbsp;&nbsp;
+
+> **Note**
+> Run the following commands as oneadmin
 
 ### Create Authorized keys file with public key
 ```bash
@@ -235,7 +215,11 @@ vi authorized_keys
 
 <h1 align="center">Configure Passwordless ssh from Frontend to Host: Frontend Configuration</h1>
 
-## Note- Run the following command as oneadmin
+
+&nbsp;&nbsp;&nbsp;
+
+> **Note**
+> Run the following commands as oneadmin
 
 ### Generate ssh public key
 ```bash
