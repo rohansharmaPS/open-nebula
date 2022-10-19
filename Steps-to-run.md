@@ -223,7 +223,7 @@ su - oneadmin
 sudo apt update
 ```
 ```bash
-sudo apt install -y ruby ruby-dev qemu-kvm libvirt-bin bridge-utils virtinst
+sudo apt install -y ruby ruby-dev qemu-kvm libvirt-clients libvirt-daemon libvirt-daemon-system bridge-utils virtinst
 sudo apt install cpu-checker -y > /dev/null 2>&1
 ```
 ---
