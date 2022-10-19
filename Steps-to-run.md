@@ -2,7 +2,7 @@
 
 ## Requirements
 - AWS EC2 Instance (a1.medium) for Frontend
-- AWS Baremetal EC2 Instance for Host (a1.metal) 
+- AWS Baremetal EC2 Instance (a1.metal) for Host
 
 &nbsp;&nbsp;&nbsp;
 
@@ -402,3 +402,7 @@ onemarketapp export 46 "Ubuntu 20.04" -d 1
 <p align="center">
     <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/list-of-vm-templates.png?raw=true" title="List of VM Templates">
 </p>
+
+### Update VM Template
+### Run and Deploy VM
+### Check ssh connection to running VM
