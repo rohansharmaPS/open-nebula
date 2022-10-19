@@ -1,7 +1,8 @@
-<h1 align="center"> Open Nebula </h1>
+<h1 align="center"> Opennebula </h1>
 
 ## Requirements
-- 2 AWS EC2 Instances with Ubuntu 20.04 - one for Frontend other for Host
+- AWS EC2 Instance (a1.medium) for Frontend
+- AWS Baremetal EC2 Instance for Host (a1.metal) 
 
 &nbsp;&nbsp;&nbsp;
 
@@ -9,19 +10,6 @@
 <h1 align="center"> Steps to Run: Frontend Setup </h1>
 
 &nbsp;&nbsp;&nbsp;
-### Install apt Dependencies
-```bash
-sudo apt update
-```
-```bash
-sudo apt install -y bash-completion bison debhelper default-jdk flex javahelper libmysql++-dev libsqlite3-dev libssl-dev \
-libsystemd-dev libws-commons-util-java libxml2-dev libxslt1-dev libcurl4-openssl-dev libcurl4 libvncserver-dev \
-postgresql-server-dev-all python3-setuptools libzmq3-dev python2 build-essential libcairo2-dev libjpeg-turbo8-dev \
-libxmlrpc-core-c3-dev npm ronn ruby ruby-dev scons libxmlrpc-c++8-dev libtelnet-dev libwebsockets-dev libpulse-dev libvorbis-dev \
-libwebp-dev libssl-dev libpango1.0-dev libswscale-dev libavcodec-dev libavutil-dev libavformat-dev libpng-dev libtool-bin \
-libossp-uuid-dev libvncserver-dev freerdp2-dev libssh2-1-dev libaugeas-dev qemu qemu-utils openvswitch-switch
-```
----
 ### Create oneadmin user and give it sudo permissions
 ```bash
 sudo adduser oneadmin
@@ -35,7 +23,20 @@ su - oneadmin
 #enter the password set above
 ```
 ---
-### Clone Open Nebula one GitHub Repository
+### Install apt Dependencies
+```bash
+sudo apt update
+```
+```bash
+sudo apt install -y bash-completion bison debhelper default-jdk flex javahelper libmysql++-dev libsqlite3-dev libssl-dev \
+libsystemd-dev libws-commons-util-java libxml2-dev libxslt1-dev libcurl4-openssl-dev libcurl4 libvncserver-dev \
+postgresql-server-dev-all python3-setuptools libzmq3-dev python2 build-essential libcairo2-dev libjpeg-turbo8-dev \
+libxmlrpc-core-c3-dev npm ronn ruby ruby-dev scons libxmlrpc-c++8-dev libtelnet-dev libwebsockets-dev libpulse-dev libvorbis-dev \
+libwebp-dev libssl-dev libpango1.0-dev libswscale-dev libavcodec-dev libavutil-dev libavformat-dev libpng-dev libtool-bin \
+libossp-uuid-dev libvncserver-dev freerdp2-dev libssh2-1-dev libaugeas-dev net-tools
+```
+---
+### Clone Opennebula one GitHub Repository
 ```bash
 git clone https://github.com/OpenNebula/one.git
 cd one
@@ -56,21 +57,18 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
 sudo npm i -g opennebula one bower grunt grunt-cli
 ```
 --- 
-### Compilation Command
+### Compilation Commands
 #### Main compilation command to compile opennebula
 ```bash
 scons -j2 mysql=yes syslog=yes systemd=yes rubygems=yes sunstone=yes 
 ```
-#### Optional Compilation Commands
-```bash
-# Compilation command to generate fireedge minified files
-scons -j2 fireedge=yes
 
-# Compilation command to install docker driver for open nebula
-scons -j2 docker_machine=yes
+#### Fireedge Compilation Command
+```bash
+scons -j2 fireedge=yes
 ```
 ---
-### Build and Install Open Nebula
+### Build and Install Opennebula
 ```bash
 # Command to build opennebula CLI and their documentation
 cd ~/one/share/man
@@ -110,7 +108,7 @@ sudo chown -R oneadmin:oneadmin /var/run/one
 cd /var/lib/one/
 ls -a
 # If .one directory does not exist
-sudo mkdir -p .one
+mkdir -p .one
 cd .one
 vi one_auth
 # In one_auth file store credentials in the form of username:password
@@ -118,6 +116,7 @@ vi one_auth
 ---
 ### Set Environment Variables
 ```bash
+#The following can be added to .bashrc to set the following Environment Variables permanently
 export CUR_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)
 export ONE_AUTH="/var/lib/one/.one/one_auth"
 export ONE_XMLRPC=http://$CUR_IP:2633
@@ -138,8 +137,13 @@ sudo mkdir -p one
 cd /etc/one/
 echo $CUR_IP #Copy the output of this command
 vi oned.conf
-change the line host: "0.0.0.0" to host: "output of echo command here"
-uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing "#" in front of the line
+Uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing "#" in front of the line
+Comment the line "VM_RESTRICTED_ATTR = "EMULATOR" " by adding "#" in front of the line
+#Replace localhost, 127.0.0.1 and 0.0.0.0 with output of echo command in the following lines
+host: "0.0.0.0"
+HM_MAD = [
+    EXECUTABLE = "one_hm",
+    ARGUMENTS = "-p 2101 -l 2102 -b 127.0.0.1"]
 ```
 #### Sunstone server configuration file
 ```bash
@@ -154,21 +158,53 @@ private_fireedge_endpoint: http://localhost:2616
 public_fireedge_endpoint: http://localhost:2616
 ```
 #### Monitor deamon configuration file
+```bash
+cd /etc/one/
+echo $CUR_IP #Copy the output of this command
+vi monitord.conf
+#Replace 0.0.0.0 and auto with output of echo command in the following lines
+NETWORK = [
+    ADDRESS         = "0.0.0.0",
+    MONITOR_ADDRESS = "auto",
+    PORT    = 4124,
+    THREADS = 8,
+    PUBKEY  = "",
+    PRIKEY  = ""
+]
+```
 #### Scheduler deamon configuration file
+```bash
+cd /etc/one/
+echo $CUR_IP #Copy the output of this command
+vi sched.conf
+#Replace localhost with output of echo command in the following lines
+ONE_XMLRPC = "http://localhost:2633/RPC2"
+```
 #### Fireedge server configuration file
+```bash
+cd /etc/one/
+echo $CUR_IP #Copy the output of this command
+vi fireedge-server.conf
+#Replace localhost and 0.0.0.0 with output of echo command in the following lines
+host: '0.0.0.0'
+one_xmlrpc: 'http://localhost:2633/RPC2'
+```
+#### KVM driver configuration file
+```bash
+cd /etc/one/vmm_exec
+vi vmm_exec_kvm.conf
+Uncomment the line "#EMULATOR = /usr/libexec/qemu-kvm" and change it to "EMULATOR = /usr/bin/kvm"
+Change ARCH to aarch64 in the following line
+OS = [
+    ARCH = "x86_64"
+]
+```
 ---
 
 
 <h1 align="center"> Steps to Run: Host Setup </h1>
 
-### Install apt Dependencies
-```bash
-sudo apt update
-```
-```bash
-sudo apt install -y ruby ruby-dev openvswitch-switch
-```
----
+
 ### Create oneadmin user and give it sudo permissions
 ```bash
 sudo adduser oneadmin
@@ -182,9 +218,30 @@ su - oneadmin
 #enter the password set above
 ```
 ---
+### Install apt Dependencies
+```bash
+sudo apt update
+```
+```bash
+sudo apt install -y ruby ruby-dev qemu-kvm libvirt-bin bridge-utils virtinst
+sudo apt install cpu-checker -y > /dev/null 2>&1
+```
+---
 ### Ruby gem Dependencies Installation
 ```bash
 sudo gem install sqlite3
+```
+---
+### Check and Enable KVM on Host
+#### Check KVM
+```bash
+sudo kvm-ok
+```
+#### Enable KVM
+```bash
+sudo systemctl start libvirtd
+sudo systemctl enable libvirtd
+sudo virsh -c qemu:///system list
 ```
 ---
 
@@ -271,6 +328,23 @@ exit
 one start
 ```
 ---
+### Setup Guacd
+```bash
+wget https://downloads.apache.org/guacamole/1.4.0/source/guacamole-server-1.4.0.tar.gz
+tar -xvf guacamole-server-1.4.0.tar.gz
+cd guacamole-server-1.4.0
+./configure --with-init-dir=/etc/init.d
+sudo make -i
+sudo make -i install
+sudo ldconfig
+# check npm audit and install npm packages if required
+```
+---
+### Start Fireedge
+```bash
+sudo fireedge-server start
+```
+---
 ### Start Sunstone frontend GUI
 ```bash
 sunstone-server start
@@ -286,12 +360,24 @@ In browser open IP: http://"output of echo command here":9869
     <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/sunstone-gui.png?raw=true" title="Sunstone GUI">
 </p>
 
+- Enter the credentials that were stored in /var/lib/one/.one/one_auth in form username:password
+- Once the credentials are verified you will see dashboard as shown below
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/opennebula-dashboard1.png?raw=true" title="Dashboard1">
+</p>
+
 ---
 ### Create Host
+
+- After Logging in to the GUI from Dashboard access Host
+- Create Host with IP of Host as shown below
 
 <p align="center">
     <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/host-creation.png?raw=true" title="Host Creation">
 </p>
+
+- Once host is created it should be in ON state, if it is in Error state check logs in /var/log/one directory to resolve error
 
 <p align="center">
     <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/list-of-hosts.png?raw=true" title="List of Hosts">
@@ -305,53 +391,14 @@ onemarketapp list
 onemarketapp export 46 "Ubuntu 20.04" -d 1
 ```
 
+- Once the Ubuntu Image and template is exported access the Dashboard, you should see Ubuntu Image uploaded as shown below
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/opennebula-dashboard2.png?raw=true" title="Dashboard2">
+</p>
+
+- Access the Templates tab, go to VMs tab, you should be able to see the Ubuntu VM template
+
 <p align="center">
     <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/list-of-vm-templates.png?raw=true" title="List of VM Templates">
 </p>
-
-<p align="center">
-    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/update-vm-template.png?raw=true" title="List of Hosts">
-</p>
-
-<p align="center">
-    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/ubuntu-vm-template-detailed-info1.png?raw=true" title="Detailed VM Template">
-</p>
-
-<p align="center">
-    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/ubuntu-vm-template-detailed-info2.png?raw=true" title="Detailed VM Template">
-</p>
-
-<p align="center">
-    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/ubuntu-vm-template-detailed-info3.png?raw=true" title="Detailed VM Template">
-</p>
-
-<p align="center">
-    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/opennebula-dashboard1.png?raw=true" title="Dashboard">
-</p>
-
-<p align="center">
-    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/opennebula-dashboard2.png?raw=true" title="Dashboard">
-</p>
-
-<p align="center">
-    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/opennebula-dashboard3.png?raw=true" title="Dashboard">
-</p>
-
-<h2 align="center">Optional Steps</h2>
-
-### Setup Guacd
-```bash
-wget https://downloads.apache.org/guacamole/1.4.0/source/guacamole-server-1.4.0.tar.gz
-tar -xvf guacamole-server-1.4.0.tar.gz
-cd guacamole-server-1.4.0
-./configure --with-init-dir=/etc/init.d
-sudo make -i
-sudo make -i install
-sudo ldconfig
-# check npm audit and install npm packages if required
-```
----
-### Start Fireedge frontend GUI
-```bash
-sudo fireedge-server start
-```
