@@ -245,6 +245,11 @@ sudo chown -R oneadmin:oneadmin /var/run/libvirt
 virsh -c qemu:///system list
 ```
 ---
+### Tranfer ownership of /var/lib to oneadmin instead of root for opennebula to be able to store data
+```bash
+sudo chown oneadmin:oneadmin /var/lib
+```
+---
 
 &nbsp;&nbsp;&nbsp;
 
