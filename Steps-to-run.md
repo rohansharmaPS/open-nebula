@@ -223,7 +223,7 @@ su - oneadmin
 sudo apt update
 ```
 ```bash
-sudo apt install -y ruby ruby-dev qemu-kvm libvirt-clients libvirt-daemon libvirt-daemon-system bridge-utils virtinst
+sudo apt install -y ruby ruby-dev qemu-kvm libvirt-clients libvirt-daemon libvirt-daemon-system bridge-utils virtinst net-tools
 sudo apt install cpu-checker -y > /dev/null 2>&1
 ```
 ---
@@ -241,7 +241,8 @@ sudo kvm-ok
 ```bash
 sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
-sudo virsh -c qemu:///system list
+sudo chown -R oneadmin:oneadmin /var/run/libvirt
+virsh -c qemu:///system list
 ```
 ---
 
@@ -403,6 +404,24 @@ onemarketapp export 46 "Ubuntu 20.04" -d 1
     <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/list-of-vm-templates.png?raw=true" title="List of VM Templates">
 </p>
 
+---
+
+&nbsp;&nbsp;&nbsp;
+
+> Content to be added
+
+### Create Virtual Network
+```bash
+ifconfig virbr0
+ip route | grep virbr0
+grep "nameserver" /etc/resolv.conf
+```
+---
+### Create datastore
+---
 ### Update VM Template
+---
 ### Run and Deploy VM
+---
 ### Check ssh connection to running VM
+---
