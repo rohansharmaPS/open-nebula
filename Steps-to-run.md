@@ -410,23 +410,67 @@ onemarketapp export 46 "Ubuntu 20.04" -d 1
 </p>
 
 ---
-
-&nbsp;&nbsp;&nbsp;
-
-> Content to be added
-
 ### Create Virtual Network
-```bash
-ifconfig virbr0
-ip route | grep virbr0
-grep "nameserver" /etc/resolv.conf
-```
+> On host run the following commands to get information of Linux bridge created by kvm 
+```bash 
+ifconfig virbr0 # Take note of IP and netmask 
+ip route | grep virbr0 # This command will print the gateway being used 
+grep "nameserver" /etc/resolv.conf # This command will print the DNS IP 
+``` 
+> - With the Above Information create Virtual Network by going into Virtual network tab on dashboard 
+> - Click on Advanced and Paste the following template and make changes if required: 
+
+``` 
+NAME = "private" 
+BRIDGE = "virbr0" 
+BRIDGE_TYPE = "linux" 
+DNS = "127.0.0.53" 
+GATEWAY = "192.168.122.0" 
+METHOD = "static" 
+NETWORK_ADDRESS = "192.168.122.1" 
+NETWORK_MASK = "255.255.255.0" 
+OUTER_VLAN_ID = "" 
+PHYDEV = "" 
+SECURITY_GROUPS = "0" 
+VLAN_ID = "" 
+VN_MAD = "bridge" 
+AR=[TYPE="IP4", IP="192.168.122.100", SIZE="100"] 
+AR=[TYPE="IP4", IP="192.168.122.220", SIZE="10"] 
+``` 
 ---
-### Create datastore
+### Update the Ubuntu VM template as following: 
+``` 
+CONTEXT = [ 
+  NETWORK = "YES", 
+  SSH_PUBLIC_KEY = "$USER[SSH_PUBLIC_KEY]" ] 
+CPU = "1" 
+DISK = [ 
+  IMAGE_ID = "6" ] 
+EMULATOR = "/usr/bin/kvm" 
+GRAPHICS = [ 
+  LISTEN = "0.0.0.0", 
+  TYPE = "vnc" ] 
+LOGO = "images/logos/ubuntu.png" 
+LXD_SECURITY_PRIVILEGED = "true" 
+MEMORY = "768" 
+OS = [ 
+  ARCH = "aarch64" ] 
+``` 
 ---
-### Update VM Template
+
+### Create a new Datastore in storage tab 
+
+> **Note**
+> The size of ubuntu image is 2.2Gb, so recommended size is atleast 3 Gb as shown below
+> Set the Datastore Type as system and Storage backend as Filesystem - ssh mode as shown below
+
+<p align="center">
+    <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/datastore-creation.png?raw=true" title="Create Datastore">
+</p>
+
 ---
-### Run and Deploy VM
----
-### Check ssh connection to running VM
----
+### Create new VM from VM tab 
+- Select the ubuntu template 
+- Specify it to run on the host we have created
+- Specify it to use the network we created
+- Specify it to use the datastore we created. 
