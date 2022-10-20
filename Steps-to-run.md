@@ -376,7 +376,7 @@ In browser open IP: http://"output of echo command here":9869
 ---
 ### Create Host
 
-- After Logging in to the GUI from Dashboard access Host
+- After Logging in to the GUI from Dashboard access Host tab
 - Create Host with IP of Host as shown below
 
 <p align="center">
