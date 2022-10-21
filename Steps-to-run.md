@@ -39,7 +39,6 @@ libossp-uuid-dev libvncserver-dev freerdp2-dev libssh2-1-dev libaugeas-dev net-t
 ### Clone Opennebula one GitHub Repository
 ```bash
 git clone https://github.com/OpenNebula/one.git
-cd one
 ```
 ---
 ### Ruby gem Dependencies Installation
@@ -58,6 +57,10 @@ sudo npm i -g opennebula one bower grunt grunt-cli
 ```
 --- 
 ### Compilation Commands
+#### Change directory
+```bash
+cd one
+```
 #### Main compilation command to compile opennebula
 ```bash
 scons -j2 mysql=yes syslog=yes systemd=yes rubygems=yes sunstone=yes 
