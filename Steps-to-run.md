@@ -226,7 +226,7 @@ sudo apt update
 sudo apt install -y bash-completion bison debhelper default-jdk flex javahelper libmysql++-dev libsqlite3-dev \
 libxmlrpc-core-c3-dev libsystemd-dev libws-commons-util-java libxml2-dev libxslt1-dev libcurl4-openssl-dev libcurl4 \
 libvncserver-dev python3-setuptools libzmq3-dev npm libssl-dev ruby ruby-dev qemu-kvm libvirt-clients libvirt-daemon \
-libvirt-daemon-system bridge-utils virtinst net-tools cpu-checker build-esseintial 
+libvirt-daemon-system bridge-utils virtinst net-tools cpu-checker build-essential 
 ```
 ---
 ### Ruby gem Dependencies Installation
