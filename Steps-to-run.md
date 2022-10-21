@@ -223,13 +223,15 @@ su - oneadmin
 sudo apt update
 ```
 ```bash
-sudo apt install -y ruby ruby-dev qemu-kvm libvirt-clients libvirt-daemon libvirt-daemon-system bridge-utils virtinst net-tools
-sudo apt install cpu-checker -y > /dev/null 2>&1
+sudo apt install -y bash-completion bison debhelper default-jdk flex javahelper libmysql++-dev libsqlite3-dev \
+libxmlrpc-core-c3-dev libsystemd-dev libws-commons-util-java libxml2-dev libxslt1-dev libcurl4-openssl-dev libcurl4 \
+libvncserver-dev python3-setuptools libzmq3-dev npm libssl-dev ruby ruby-dev qemu-kvm libvirt-clients libvirt-daemon \
+libvirt-daemon-system bridge-utils virtinst net-tools cpu-checker build-esseintial 
 ```
 ---
 ### Ruby gem Dependencies Installation
 ```bash
-sudo gem install sqlite3
+sudo gem install xmlrpc sqlite3
 ```
 ---
 ### Check and Enable KVM on Host
