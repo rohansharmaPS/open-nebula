@@ -92,6 +92,8 @@ sudo ln -s ~/one/src/sunstone/public/dist/main.js main.js
 ---
 ### Link dist folder of Fireeedge if not present in /usr/lib/one/fireedge/
 ```bash
+ls /usr/lib/one/fireedge/
+#if dist folder not present
 cd /usr/lib/one/fireedge/
 sudo ln -s ~/one/src/fireedge/dist
 ```
@@ -108,9 +110,7 @@ sudo chown -R oneadmin:oneadmin /var/run/one
 ---
 ### Create one_auth File
 ```bash
-cd /var/lib/one/
-ls -a
-# If .one directory does not exist
+cd ~
 mkdir -p .one
 cd .one
 vi one_auth
@@ -121,7 +121,6 @@ vi one_auth
 ```bash
 #The following can be added to .bashrc to set the following Environment Variables permanently
 export CUR_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)
-export ONE_AUTH="/var/lib/one/.one/one_auth"
 export ONE_XMLRPC=http://$CUR_IP:2633
 ```
 ---
@@ -141,12 +140,8 @@ cd /etc/one/
 echo $CUR_IP #Copy the output of this command
 vi oned.conf
 Uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing "#" in front of the line
-Comment the line "VM_RESTRICTED_ATTR = "EMULATOR" " by adding "#" in front of the line
 #Replace localhost, 127.0.0.1 and 0.0.0.0 with output of echo command in the following lines
 host: "0.0.0.0"
-HM_MAD = [
-    EXECUTABLE = "one_hm",
-    ARGUMENTS = "-p 2101 -l 2102 -b 127.0.0.1"]
 ```
 #### Sunstone server configuration file
 ```bash
@@ -156,8 +151,6 @@ vi sunstone-server.conf
 #Replace localhost and 0.0.0.0 with output of echo command in the following lines
 one_xmlrpc: http://localhost:2633/RPC2
 host: "0.0.0.0"
-oneflow_server: http://localhost:2474/
-private_fireedge_endpoint: http://localhost:2616
 public_fireedge_endpoint: http://localhost:2616
 ```
 #### Monitor deamon configuration file
@@ -196,7 +189,6 @@ one_xmlrpc: 'http://localhost:2633/RPC2'
 ```bash
 cd /etc/one/vmm_exec
 vi vmm_exec_kvm.conf
-Uncomment the line "#EMULATOR = /usr/libexec/qemu-kvm" and change it to "EMULATOR = /usr/bin/kvm"
 Change ARCH to aarch64 in the following line
 OS = [
     ARCH = "x86_64"
