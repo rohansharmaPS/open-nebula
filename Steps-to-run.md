@@ -140,50 +140,6 @@ cd /etc/one/
 echo $CUR_IP #Copy the output of this command
 vi oned.conf
 Uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing "#" in front of the line
-#Replace localhost, 127.0.0.1 and 0.0.0.0 with output of echo command in the following lines
-host: "0.0.0.0"
-```
-#### Sunstone server configuration file
-```bash
-cd /etc/one/
-echo $CUR_IP #Copy the output of this command
-vi sunstone-server.conf
-#Replace localhost and 0.0.0.0 with output of echo command in the following lines
-one_xmlrpc: http://localhost:2633/RPC2
-host: "0.0.0.0"
-public_fireedge_endpoint: http://localhost:2616
-```
-#### Monitor deamon configuration file
-```bash
-cd /etc/one/
-echo $CUR_IP #Copy the output of this command
-vi monitord.conf
-#Replace 0.0.0.0 and auto with output of echo command in the following lines
-NETWORK = [
-    ADDRESS         = "0.0.0.0",
-    MONITOR_ADDRESS = "auto",
-    PORT    = 4124,
-    THREADS = 8,
-    PUBKEY  = "",
-    PRIKEY  = ""
-]
-```
-#### Scheduler deamon configuration file
-```bash
-cd /etc/one/
-echo $CUR_IP #Copy the output of this command
-vi sched.conf
-#Replace localhost with output of echo command in the following lines
-ONE_XMLRPC = "http://localhost:2633/RPC2"
-```
-#### Fireedge server configuration file
-```bash
-cd /etc/one/
-echo $CUR_IP #Copy the output of this command
-vi fireedge-server.conf
-#Replace localhost and 0.0.0.0 with output of echo command in the following lines
-host: '0.0.0.0'
-one_xmlrpc: 'http://localhost:2633/RPC2'
 ```
 #### KVM driver configuration file
 ```bash
