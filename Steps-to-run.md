@@ -43,7 +43,7 @@ git clone https://github.com/OpenNebula/one.git
 ---
 ### Ruby gem Dependencies Installation
 ```bash
-sudo gem install xmlrpc polyglot treetop parse-cron ffi-rzmq sinatra rqrcode rotp ipaddress ox highline rbvmomi git augeas sqlite3 curb zendesk_api
+sudo gem install xmlrpc polyglot treetop parse-cron ffi-rzmq sinatra rqrcode rotp ipaddress ox highline rbvmomi git augeas sqlite3 curb zendesk_api net-ldap gnuplot mysql2 sequel pg aws-sdk-ec2 aws-sdk-s3 configparser activesupport faraday_middleware thin uuidtools webauthn memcache-client dalli prometheus-client
 ```
 ---
 ### Python version alternative update
