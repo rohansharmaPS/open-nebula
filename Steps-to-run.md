@@ -301,7 +301,7 @@ sudo ldconfig
 ---
 ### Start Fireedge
 ```bash
-sudo fireedge-server start
+fireedge-server start
 ```
 ---
 ### Start Sunstone frontend GUI
