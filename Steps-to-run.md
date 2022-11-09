@@ -35,6 +35,16 @@ libxmlrpc-core-c3-dev npm ronn ruby ruby-dev scons libxmlrpc-c++8-dev libtelnet-
 libwebp-dev libssl-dev libpango1.0-dev libswscale-dev libavcodec-dev libavutil-dev libavformat-dev libpng-dev libtool-bin \
 libossp-uuid-dev libvncserver-dev freerdp2-dev libssh2-1-dev libaugeas-dev net-tools qemu-utils genisoimage
 ```
+```
+sudo apt install -y augeas-lenses comerr-dev curl dmeventd fonts-lato git git-man ibverbs-providers ieee-data iputils-arping \
+javascript-common jq krb5-multidev libaugeas0 libblas3 libboost-iostreams1.71.0 libc-ares2 libc-dev-bin libc6-dev libcrypt-dev \
+libcurl4 libdevmapper-event1.02.1 liberror-perl libfreerdp-client2-2 libfreerdp2-2 libgfortran5 libgssrpc4 libibverbs1 libiscsi7 \
+libjq1 libjs-jquery libkadm5clnt-mit11 libkadm5srv-mit11 libkdb5-9 libkrb5-dev liblapack3 liblvm2cmd2.03 libnode64 libnorm-dev \
+libnorm1 libonig5 libossp-uuid16 libpgm-5.2-0 libpgm-dev libpq5 libquadmath0 librados2 librbd1 librdmacm1 libreadline5 libruby2.7 \
+libsodium-dev libsqlite3-0 libssh2-1 libvncclient1 libwinpr2-2 libzmq3-dev libzmq5 linux-libc-dev lvm2 manpages-dev nodejs \
+nodejs-doc python3-netaddr python3-numpy qemu-block-extra qemu-utils rake ruby ruby-minitest ruby-net-telnet ruby-power-assert \
+ruby-test-unit ruby-xmlrpc ruby2.7 rubygems-integration sharutils sqlite3 thin-provisioning-tools
+```
 ---
 ### Clone Opennebula one GitHub Repository
 ```bash
