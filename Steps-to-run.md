@@ -35,23 +35,18 @@ libxmlrpc-core-c3-dev npm ronn ruby-dev scons libxmlrpc-c++8-dev libtelnet-dev l
 libwebp-dev libssl-dev libpango1.0-dev libswscale-dev libavcodec-dev libavutil-dev libavformat-dev libpng-dev libtool-bin \
 libossp-uuid-dev libvncserver-dev freerdp2-dev libssh2-1-dev libaugeas-dev net-tools genisoimage augeas-lenses comerr-dev \
 curl dmeventd fonts-lato git git-man ibverbs-providers ieee-data iputils-arping javascript-common jq krb5-multidev \
-libaugeas0 libblas3 libboost-iostreams1.71.0 libc-ares2 libc-dev-bin libc6-dev libcrypt-dev libcurl4 \
-libdevmapper-event1.02.1 liberror-perl libfreerdp-client2-2 libfreerdp2-2 libgfortran5 libgssrpc4 libibverbs1 libiscsi7 \
-libjq1 libjs-jquery libkadm5clnt-mit11 libkadm5srv-mit11 libkdb5-9 libkrb5-dev liblapack3 liblvm2cmd2.03 libnode64 libnorm-dev \
-libnorm1 libonig5 libossp-uuid16 libpgm-5.2-0 libpgm-dev libpq5 libquadmath0 librados2 librbd1 librdmacm1 libreadline5 libruby2.7 \
-libsodium-dev libsqlite3-0 libssh2-1 libvncclient1 libwinpr2-2 libzmq3-dev libzmq5 linux-libc-dev lvm2 manpages-dev nodejs \
-nodejs-doc python3-netaddr python3-numpy qemu-block-extra qemu-utils rake ruby ruby-minitest ruby-net-telnet ruby-power-assert \
-ruby-test-unit ruby-xmlrpc ruby2.7 rubygems-integration sharutils sqlite3 mysql-server
+libaugeas0 libblas3 libboost-iostreams1.71.0 libc-ares2 libc-dev-bin libc6-dev libcrypt-dev libcurl4 libdevmapper-event1.02.1 \
+liberror-perl libfreerdp-client2-2 libfreerdp2-2 libgfortran5 libgssrpc4 libibverbs1 libiscsi7 libjq1 libjs-jquery \
+libkadm5clnt-mit11 libkadm5srv-mit11 libkdb5-9 libkrb5-dev liblapack3 liblvm2cmd2.03 libnode64 libnorm-dev libnorm1 \
+libonig5 libossp-uuid16 libpgm-5.2-0 libpgm-dev libpq5 librados2 librbd1 librdmacm1 libreadline5 libruby2.7 libsodium-dev \
+libsqlite3-0 libssh2-1 libvncclient1 libwinpr2-2 libzmq3-dev libzmq5 linux-libc-dev lvm2 manpages-dev nodejs nodejs-doc \
+python3-netaddr python3-numpy qemu-block-extra qemu-utils rake ruby ruby-minitest ruby-net-telnet ruby-power-assert \
+ruby-test-unit ruby-xmlrpc ruby2.7 rubygems-integration sharutils sqlite3 mysql-server openvswitch-switch
 ```
 ---
 ### Clone Opennebula one GitHub Repository
 ```bash
 git clone https://github.com/OpenNebula/one.git
-```
----
-### Ruby gem Dependencies Installation
-```bash
-sudo gem install xmlrpc polyglot treetop parse-cron ffi-rzmq sinatra rqrcode rotp ipaddress ox highline rbvmomi git augeas sqlite3 curb zendesk_api net-ldap gnuplot mysql2 sequel pg aws-sdk-ec2 aws-sdk-s3 configparser activesupport faraday_middleware thin uuidtools webauthn memcache-client dalli prometheus-client
 ```
 ---
 ### Python version alternative update
@@ -61,22 +56,28 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
 ---
 ### Node dependencies Installation
 ```bash
-sudo npm i -g opennebula one bower grunt grunt-cli
+sudo npm i -g bower grunt grunt-cli
+```
+---
+### Setup Guacd
+```bash
+wget https://downloads.apache.org/guacamole/1.4.0/source/guacamole-server-1.4.0.tar.gz
+tar -xzf guacamole-server-1.4.0.tar.gz
+cd guacamole-server-1.4.0
+./configure --with-init-dir=/etc/init.d
+sudo make
+sudo make install
+sudo ldconfig
+# check npm audit and install npm packages if required
 ```
 --- 
-### Compilation Commands
-#### Change directory
+### Change directory
 ```bash
 cd one
 ```
-#### Main compilation command to compile opennebula
+### Compilation Command
 ```bash
-scons -j2 mysql=yes syslog=yes systemd=yes rubygems=yes sunstone=yes 
-```
-
-#### Fireedge Compilation Command
-```bash
-scons -j2 fireedge=yes
+scons -j2 mysql=yes syslog=yes systemd=yes rubygems=yes sunstone=yes fireedge=yes
 ```
 ---
 ### Build and Install Opennebula
@@ -89,6 +90,17 @@ sudo ./build.sh
 cd ~/one
 sudo ./install.sh
 ```
+---
+### Ruby gem Dependencies Installation
+```bash
+sudo /usr/share/one/install_gems
+```
+
+> **Note**
+> Uninstall nokogiri version other than 1.10
+> Use command : gem list | grep nokogiri to check if any other version is installed
+> Use command gem uninstall nokogiri -v "version number" to uninstall other version
+
 ---
 ### Link main.js for Sunstone if not present in /usr/lib/one/sunstone/public/dist/
 ```bash
@@ -112,6 +124,7 @@ sudo chown -R oneadmin:oneadmin /usr/lib/one
 sudo chown -R oneadmin:oneadmin /etc/one
 sudo chown -R oneadmin:oneadmin /var/lib/one
 sudo chown -R oneadmin:oneadmin /var/lock/one
+sudo chown -R oneadmin:oneadmin /var/lock
 sudo chown -R oneadmin:oneadmin /var/log/one
 sudo chown -R oneadmin:oneadmin /var/run/one
 ```
@@ -125,19 +138,28 @@ vi one_auth
 # In one_auth file store credentials in the form of username:password
 ```
 ---
-### Set Environment Variables
+### Enable passwordless sudo
 ```bash
-#The following can be added to .bashrc to set the following Environment Variables permanently
-export CUR_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)
-export ONE_XMLRPC=http://$CUR_IP:2633
+sudo visudo
+#add the following line to end of file
+oneadmin ALL=(ALL) NOPASSWD: ALL
 ```
 ---
-### Check Lockfile
+### Add the following to end of ~/.bashrc file
 ```bash
-ls /var/lock/
-# if one directory does not exist
-cd /var/lock/
-sudo mkdir -p one
+export ONE_AUTH="/var/lib/one/.one/one_auth"
+export CUR_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)
+export ONE_XMLRPC=http://$CUR_IP:2633
+if [[ ! -e "/var/lock/one" ]]; then
+    cd "/var/lock"
+    mkdir one
+fi
+if [[ ! -e "/var/run/one" ]]; then
+    cd "/var/run"
+    sudo mkdir one
+    sudo chown oneadmin:oneadmin one
+fi
+cd
 ```
 ---
 ### Make the Following Changes in configuration Files
@@ -148,8 +170,9 @@ cd /etc/one/
 echo $CUR_IP #Copy the output of this command
 vi oned.conf
 Uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing "#" in front of the line
+Uncomment the line "#ONEGATE_ENDPOINT = http://frontend:5030" by removing "#" in front of the line and replace frontend with 0.0.0.0
 ```
-#### KVM driver configuration file
+#### KVM driver configuration file for ARM64
 ```bash
 cd /etc/one/vmm_exec
 vi vmm_exec_kvm.conf
@@ -185,7 +208,7 @@ sudo apt update
 sudo apt install -y bash-completion bison debhelper default-jdk flex javahelper libmysql++-dev libsqlite3-dev \
 libxmlrpc-core-c3-dev libsystemd-dev libws-commons-util-java libxml2-dev libxslt1-dev libcurl4-openssl-dev libcurl4 \
 libvncserver-dev python3-setuptools libzmq3-dev npm libssl-dev ruby ruby-dev qemu-kvm libvirt-clients libvirt-daemon \
-libvirt-daemon-system bridge-utils virtinst net-tools cpu-checker build-essential 
+libvirt-daemon-system bridge-utils virtinst net-tools cpu-checker build-essential openvswitch-switch
 ```
 ---
 ### Ruby gem Dependencies Installation
@@ -206,9 +229,10 @@ sudo chown -R oneadmin:oneadmin /var/run/libvirt
 virsh -c qemu:///system list
 ```
 ---
-### Tranfer ownership of /var/lib to oneadmin instead of root for opennebula to be able to store data
+### Tranfer ownership of /var/lib and /var/tmp to oneadmin instead of root for opennebula to be able to store data
 ```bash
 sudo chown oneadmin:oneadmin /var/lib
+sudo chown oneadmin:oneadmin /var/tmp
 ```
 ---
 
@@ -295,18 +319,6 @@ exit
 one start
 ```
 ---
-### Setup Guacd
-```bash
-wget https://downloads.apache.org/guacamole/1.4.0/source/guacamole-server-1.4.0.tar.gz
-tar -xzf guacamole-server-1.4.0.tar.gz
-cd guacamole-server-1.4.0
-./configure --with-init-dir=/etc/init.d
-sudo make -i
-sudo make -i install
-sudo ldconfig
-# check npm audit and install npm packages if required
-```
----
 ### Start Fireedge
 ```bash
 fireedge-server start
@@ -315,6 +327,11 @@ fireedge-server start
 ### Start Sunstone frontend GUI
 ```bash
 sunstone-server start
+```
+---
+### Start Onegate
+```bash
+onegate-server start
 ```
 ---
 ### Open Sunstone frontend GUI
@@ -374,8 +391,8 @@ onemarketapp export 46 "Ubuntu 20.04" -d 1
 ### Create Virtual Network
 > On host run the following commands to get information of Linux bridge created by kvm 
 ```bash 
-ifconfig virbr0 # Take note of IP and netmask 
-ip route | grep virbr0 # This command will print the gateway being used 
+ifconfig ovsbr0 # Take note of IP and netmask 
+ip route | grep ovsbr0 # This command will print the gateway being used 
 grep "nameserver" /etc/resolv.conf # This command will print the DNS IP 
 ``` 
 > - With the Above Information create Virtual Network by going into Virtual network tab on dashboard 
@@ -383,23 +400,23 @@ grep "nameserver" /etc/resolv.conf # This command will print the DNS IP
 
 ``` 
 NAME = "private" 
-BRIDGE = "virbr0" 
+BRIDGE = "ovsbr0" 
 BRIDGE_TYPE = "linux" 
 DNS = "127.0.0.53" 
-GATEWAY = "192.168.122.0" 
+GATEWAY = "172.30.0.0" 
 METHOD = "static" 
-NETWORK_ADDRESS = "192.168.122.1" 
+NETWORK_ADDRESS = "172.30.0.1" 
 NETWORK_MASK = "255.255.255.0" 
 OUTER_VLAN_ID = "" 
 PHYDEV = "" 
 SECURITY_GROUPS = "0" 
 VLAN_ID = "" 
-VN_MAD = "bridge" 
+VN_MAD = "ovswitch" 
 AR=[TYPE="IP4", IP="192.168.122.100", SIZE="100"] 
 AR=[TYPE="IP4", IP="192.168.122.220", SIZE="10"] 
 ``` 
 ---
-### Update the Ubuntu VM template as following: 
+### Update the Ubuntu VM template as following for ARM64: 
 ``` 
 CONTEXT = [ 
   NETWORK = "YES", 
@@ -424,7 +441,7 @@ OS = [
 > **Note**
 > The size of ubuntu image is 2.2Gb, so recommended size is atleast 3 Gb as shown below
 > Set the Datastore Type as system and Storage backend as Filesystem - ssh mode as shown below
-
+x
 <p align="center">
     <img src="https://github.com/rohansharmaPS/open-nebula/blob/main/images/datastore-creation.png?raw=true" title="Create Datastore">
 </p>
