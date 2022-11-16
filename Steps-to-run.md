@@ -23,6 +23,13 @@ su - oneadmin
 #enter the password set above
 ```
 ---
+### Enable passwordless sudo
+```bash
+sudo visudo
+#add the following line to end of file
+oneadmin ALL=(ALL) NOPASSWD: ALL
+```
+---
 ### Install apt Dependencies
 ```bash
 sudo apt update
@@ -98,9 +105,15 @@ sudo /usr/share/one/install_gems
 
 > **Note**
 > Uninstall nokogiri version other than 1.10
-> Use command : gem list | grep nokogiri to check if any other version is installed
-> Use command gem uninstall nokogiri -v "version number" to uninstall other version
 
+#### Check if any other version is installed
+```bash
+gem list | grep nokogiri
+```
+#### Uninstall the other version
+```bash
+gem uninstall nokogiri -v "insert version number here"
+```
 ---
 ### Link main.js for Sunstone if not present in /usr/lib/one/sunstone/public/dist/
 ```bash
@@ -136,13 +149,6 @@ mkdir -p .one
 cd .one
 vi one_auth
 # In one_auth file store credentials in the form of username:password
-```
----
-### Enable passwordless sudo
-```bash
-sudo visudo
-#add the following line to end of file
-oneadmin ALL=(ALL) NOPASSWD: ALL
 ```
 ---
 ### Add the following to end of ~/.bashrc file
@@ -200,6 +206,13 @@ su - oneadmin
 #enter the password set above
 ```
 ---
+### Enable passwordless sudo
+```bash
+sudo visudo
+#add the following line to end of file
+oneadmin ALL=(ALL) NOPASSWD: ALL
+```
+---
 ### Install apt Dependencies
 ```bash
 sudo apt update
@@ -239,7 +252,7 @@ sudo chown oneadmin:oneadmin /var/tmp
 &nbsp;&nbsp;&nbsp;
 
 > **Note**
-> Configure host first
+> Configure Host first
 
 &nbsp;&nbsp;&nbsp;
 
@@ -260,6 +273,7 @@ vi authorized_keys
 #Copy and paste contents of /home/ubuntu/.ssh/authorized_keys and save (:wq)
 ```
 ---
+
 
 <h1 align="center">Configure Passwordless ssh from Frontend to Host: Frontend Configuration</h1>
 
@@ -288,21 +302,23 @@ vi authorized_keys
 cat id_rsa.pub >> authorized_keys
 ```
 ---
-### Create Known hosts file with keys of Frontend and host
+### Create Known hosts file with keys of Frontend and Host
 ```bash
 cd ~/.ssh
 ssh-keyscan "Frontend IP here" > known_hosts
 ssh-keyscan "Host IP here" >> known_hosts
 ```
 ---
-## Note- Before running below step be sure to scp the identity file for host to frontend
 
-### SCP the contents inside .ssh folder of Frontend to host
+> **Note**
+> Before running below step be sure to scp the identity file for host to frontend
+
+### SCP the contents inside .ssh folder of Frontend to Host
 ```bash
 scp -i "identity file here" ~/.ssh/* oneadmin@host-ip:/home/oneadmin
 ```
 ---
-### Final step
+### Move the files to .ssh folder of Host
 ```bash
 ssh -i "identity file here" oneadmin@host-ip
 move and replace the authorized_keys, id_rsa, id_rsa.pub and known_hosts file to ~/.ssh folder
@@ -312,7 +328,51 @@ exit
 ```
 ---
 
+
+<h1 align="center">Setup Openvswitch Network between Frontend and Host: Frontend Setup</h1>
+
+
+### Add Bridge
+```bash
+ovs-vsctl add-br ovsbr0
+```
+---
+### Add port and connection to Host
+```bash
+ovs-vsctl add-port ovsbr0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip="Insert Private IP of Host here"
+```
+---
+### Add ip address to bridge using gateway
+```bash
+sudo ip addr add "Insert gateway here" dev ovsbr0
+sudo ip link set up ovsbr0
+```
+---
+
+
+<h1 align="center">Setup Openvswitch Network between Frontend and Host: Host Setup</h1>
+
+
+### Add Bridge
+```bash
+ovs-vsctl add-br ovsbr0
+```
+---
+### Add port and connection to Host
+```bash
+ovs-vsctl add-port ovsbr0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip="Insert Private IP of Host here"
+```
+---
+### Add ip address to bridge using gateway
+```bash
+sudo ip addr add "Insert gateway here" dev ovsbr0
+sudo ip link set up ovsbr0
+```
+---
+
+
 <h1 align="center">Start Opennebula on Frontend</h1>
+
 
 ### Start opennebula service
 ```bash
@@ -402,18 +462,18 @@ grep "nameserver" /etc/resolv.conf # This command will print the DNS IP
 NAME = "private" 
 BRIDGE = "ovsbr0" 
 BRIDGE_TYPE = "linux" 
-DNS = "127.0.0.53" 
-GATEWAY = "172.30.0.0" 
+DNS = "Insert DNS found above" 
+GATEWAY = "Insert Gateway found above" 
 METHOD = "static" 
-NETWORK_ADDRESS = "172.30.0.1" 
+NETWORK_ADDRESS = "Insert IP found above" 
 NETWORK_MASK = "255.255.255.0" 
 OUTER_VLAN_ID = "" 
 PHYDEV = "" 
 SECURITY_GROUPS = "0" 
 VLAN_ID = "" 
 VN_MAD = "ovswitch" 
-AR=[TYPE="IP4", IP="192.168.122.100", SIZE="100"] 
-AR=[TYPE="IP4", IP="192.168.122.220", SIZE="10"] 
+AR=[TYPE="IP4", IP="", SIZE="100"] 
+AR=[TYPE="IP4", IP="", SIZE="10"] 
 ``` 
 ---
 ### Update the Ubuntu VM template as following for ARM64: 
