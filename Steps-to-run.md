@@ -144,7 +144,7 @@ sudo chown -R oneadmin:oneadmin /var/run/one
 ---
 ### Create one_auth File
 ```bash
-cd ~
+cd /var/lib/one
 mkdir -p .one
 cd .one
 vi one_auth
