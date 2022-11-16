@@ -168,12 +168,16 @@ fi
 cd
 ```
 ---
+### Update environment
+```bash
+source .bashrc
+```
+---
 ### Make the Following Changes in configuration Files
 
 #### Opennebula deamon configuration file
 ```bash
 cd /etc/one/
-echo $CUR_IP #Copy the output of this command
 vi oned.conf
 Uncomment the line "#DATASTORE_LOCATION  = /var/lib/one/datastores" by removing "#" in front of the line
 Uncomment the line "#ONEGATE_ENDPOINT = http://frontend:5030" by removing "#" in front of the line and replace frontend with 0.0.0.0
