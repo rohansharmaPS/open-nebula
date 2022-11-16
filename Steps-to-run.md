@@ -80,7 +80,7 @@ sudo ldconfig
 --- 
 ### Change directory
 ```bash
-cd one
+cd ~/one
 ```
 ### Compilation Command
 ```bash
