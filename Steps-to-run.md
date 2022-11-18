@@ -112,7 +112,7 @@ gem list | grep nokogiri
 ```
 #### Uninstall the other version
 ```bash
-gem uninstall nokogiri -v "insert version number here"
+sudo gem uninstall nokogiri -v "insert version number here"
 ```
 ---
 ### Link main.js for Sunstone if not present in /usr/lib/one/sunstone/public/dist/
