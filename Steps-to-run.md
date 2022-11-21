@@ -336,6 +336,11 @@ exit
 <h1 align="center">Setup Openvswitch Network between Frontend and Host: Frontend Setup</h1>
 
 
+### Change Ownership of required directory
+```bash
+sudo chown -R oneadmin:oneadmin /var/run/openvswitch
+```
+---
 ### Add Bridge
 ```bash
 ovs-vsctl add-br ovsbr0
@@ -357,6 +362,11 @@ sudo ip link set up ovsbr0
 <h1 align="center">Setup Openvswitch Network between Frontend and Host: Host Setup</h1>
 
 
+### Change Ownership of required directory
+```bash
+sudo chown -R oneadmin:oneadmin /var/run/openvswitch
+```
+---
 ### Add Bridge
 ```bash
 ovs-vsctl add-br ovsbr0
